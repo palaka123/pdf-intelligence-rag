@@ -1,0 +1,22 @@
+# --- Python environment & caches ---
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# --- Secrets: NEVER commit these ---
+.env
+.streamlit/secrets.toml
+
+# --- User documents & generated indexes ---
+# We never commit uploaded PDFs or vector indexes.
+*.pdf
+!tests/fixtures/*.pdf
+*.faiss
+*.pkl
+uploads/
+
+# --- Editor / OS clutter ---
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,20 @@
+# Runtime dependencies — installed locally AND by Streamlit Cloud.
+# Rule: list every package our code imports directly.
+# Lower bound = the version we tested. Upper bound = below the next
+# release allowed to contain breaking changes.
+
+# PDF processing
+pymupdf>=2.0,<3
+
+# LangChain core + text splitting
+langchain-core>=1.6.12,<2
+langchain-text-splitters>=1.1.3,<2
+pydantic>=2.14,<3
+
+# OpenAI (embeddings now, chat models later)
+langchain-openai>=1.7.2,<2
+openai>=3.37,<4
+
+# Local embeddings. Pinned to a minor release: 0.x versions may change
+# defaults or behaviour between minor releases.
+fastembed>=0.9.0,<0.10

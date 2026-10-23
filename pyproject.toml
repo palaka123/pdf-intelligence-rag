@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+# Put the project root on the import path so tests can `import src...`
+pythonpath = ["."]
+testpaths = ["tests"]
