@@ -1,0 +1,8 @@
+[server]
+# Streamlit rejects larger uploads before our code runs.
+# Our own validator (PDF_LIMITS) still checks independently.
+maxUploadSize = 10   # MB
+
+[browser]
+# Don't send anonymous usage statistics to Streamlit.
+gatherUsageStats = false
