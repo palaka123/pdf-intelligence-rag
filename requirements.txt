@@ -23,4 +23,12 @@ fastembed>=0.9.0,<0.10
 faiss-cpu>=1.15,<2
 numpy>=2.5,<3
 
-  streamlit>=1.66,<2
+streamlit>=1.66,<2
+  # Security floor for a TRANSITIVE dependency (used by streamlit and fastembed,
+# not imported by our code). pip-audit flagged 35 vulnerabilities in 12.3.0;
+
+# 13.0.0 is the first fixed version.
+   # SECURITY NOTE (2026-10-23): pip-audit reports vulnerabilities in pillow 12.x
+   # (fixed in 13.0.0). Not yet patchable: fastembed 0.9 requires pillow<13 on
+   # Python 3.12. Assessed exposure: low — user files never reach Pillow (PDFs go
+   # to PyMuPDF; we use no image features). Revisit when fastembed allows pillow>=13.
