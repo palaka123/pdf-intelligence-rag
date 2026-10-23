@@ -18,3 +18,7 @@ openai>=3.37,<4
 # Local embeddings. Pinned to a minor release: 0.x versions may change
 # defaults or behaviour between minor releases.
 fastembed>=0.9.0,<0.10
+
+# Vector search
+faiss-cpu>=1.15,<2
+numpy>=2.5,<3

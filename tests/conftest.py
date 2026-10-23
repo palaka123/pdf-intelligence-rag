@@ -1,8 +1,14 @@
 """Shared test helpers. pytest loads this file automatically."""
 
+import re
+import zlib
+
 import pymupdf
 import pytest
+from langchain_core.embeddings import Embeddings
 
+
+# ---------- PDF helpers (Stage A/B) ----------
 
 def build_pdf(page_texts: list[str], user_password: str | None = None) -> bytes:
     """Build a PDF in memory: one page per string; "" makes a blank page.
@@ -37,3 +43,29 @@ def page_text(n: int) -> str:
 def make_pdf():
     """Give tests access to the PDF builder."""
     return build_pdf
+
+
+# ---------- Embedding helpers (Stage E) ----------
+
+class KeywordEmbeddings(Embeddings):
+    """Offline fake: a bag-of-words vector, so texts sharing words are similar.
+
+    Each word is hashed into one of `dimensions` slots and counted.
+    zlib.crc32 is used (not hash()) because it gives the same result every
+    run, keeping tests deterministic.
+    """
+
+    def __init__(self, dimensions: int = 384) -> None:
+        self.dimensions = dimensions
+
+    def _embed(self, text: str) -> list[float]:
+        vector = [0.0] * self.dimensions
+        for word in re.findall(r"[a-z0-9]+", text.lower()):
+            vector[zlib.crc32(word.encode()) % self.dimensions] += 1.0
+        return vector
+
+    def embed_documents(self, texts: list[str]) -> list[list[float]]:
+        return [self._embed(text) for text in texts]
+
+    def embed_query(self, text: str) -> list[float]:
+        return self._embed(text)
