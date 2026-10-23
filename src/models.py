@@ -12,6 +12,9 @@ class GroundedAnswer(BaseModel):
 
     The field descriptions below are sent to the model as part of the
     schema, so they are effectively part of the prompt.
+
+    Every field is REQUIRED (no defaults): OpenAI's strict structured-output
+    mode rejects schemas with optional fields.
     """
 
     evidence_level: Literal["explicit", "inferred", "insufficient"] = Field(
@@ -31,10 +34,9 @@ class GroundedAnswer(BaseModel):
         )
     )
     cited_chunk_ids: list[str] = Field(
-        default_factory=list,
         description=(
             "The id attribute of every excerpt the answer relies on, copied "
-            "exactly (for example 'p2-c1'). Empty if evidence_level is "
-            "'insufficient'."
+            "exactly (for example 'p2-c1'). An empty list if evidence_level "
+            "is 'insufficient'."
         ),
     )
